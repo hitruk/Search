@@ -1,0 +1,19 @@
+
+
+.pytest_cache
+geckhodriver.log
+*.log
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# IDEs
+.idea
+
+# pycache
+__pycache__
+
+
+
