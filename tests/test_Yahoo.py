@@ -1,23 +1,16 @@
 
-from selenium.webdriver.common.keys import  Keys
-
+from page.search_Yahoo import SearchYahooPage
+from page.result_Yahoo import ResultYahooPage
 
 def test_search_yahoo(browser):
 
-    URL = 'https://search.yahoo.com/'
     PHRASE = 'Hitruk'
 
-    browser.get(URL)
+    search_page = SearchYahooPage(browser)
+    search_page.load_page()
+    search_page.input_phrase(PHRASE)
 
-    input_phrase = browser.find_element_by_id('yschsp')
-    input_phrase.send_keys(PHRASE+Keys.RETURN)
-
-    result_blocks = browser.find_elements_by_css_selector('#web>ol>li')
-    assert len(result_blocks) > 0
-
-    xpath = f"//h3[@class='title']//*[contains(text(), '{PHRASE}')]"
-    link_text = browser.find_elements_by_xpath(xpath)
-    assert len(link_text) > 0
-
-    result_phrase = browser.find_element_by_css_selector('#yschsp')
-    assert result_phrase.get_attribute('value') == PHRASE
+    result_page = ResultYahooPage(browser)
+    assert result_page.result_blocks() > 0
+    assert result_page.link_text(PHRASE) > 0
+    assert result_page.result_phrase() == PHRASE
